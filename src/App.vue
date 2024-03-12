@@ -127,7 +127,12 @@ let element = ref(null);
 let index = ref(null);
 
 function modificarBoleta(elemento, indice) {
-	if (elemento.estado == "Disponible") {
+	if ( indice == index ) {
+		boletaReservada.value = false;
+		boletaComprada.value = false;
+		boletaDisponible.value = false;
+	} else {
+		if (elemento.estado == "Disponible") {
 		// mostrar desplegable de boletas disponible
 		boletaDisponible.value = false;
 		boletaDisponible.value = true;
@@ -137,7 +142,7 @@ function modificarBoleta(elemento, indice) {
 
 		element.value = elemento;
 		index.value = indice;
-	} else if (elemento.estado == "Reservado") {
+		} else if (elemento.estado == "Reservado") {
 		// mostrar desplegable de boletas reservada
 		boletaReservada.value = false;
 		boletaReservada.value = true;
@@ -147,17 +152,19 @@ function modificarBoleta(elemento, indice) {
 
 		element.value = elemento;
 		index.value = indice;
-	} else {
-		// mostrar desplegable de boletas comprada
-		boletaComprada.value = false;
-		boletaComprada.value = true;
-		// esconde demas desplegables
-		boletaDisponible.value = false;
-		boletaReservada.value = false;
+		} else {
+			// mostrar desplegable de boletas comprada
+			boletaComprada.value = false;
+			boletaComprada.value = true;
+			// esconde demas desplegables
+			boletaDisponible.value = false;
+			boletaReservada.value = false;
 
-		element.value = elemento;
-		index.value = indice;
+			element.value = elemento;
+			index.value = indice;
+		}
 	}
+	
 }
 
 function mostrarFBD() {
