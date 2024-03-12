@@ -167,7 +167,7 @@ function mostrarFBD() {
 }
 
 let clientes = ref([]);
-let textDireccion = /^[A-Za-z0-9\s]+$/g;
+// let textDireccion = /^[A-Za-z0-9\s]+$/g;
 
 let hoyAhoraParaAdquirir = null;
 
@@ -213,12 +213,14 @@ function adquirir() {
 			text: "La dirección está vacía",
 			icon: "error",
 		});
-	} else if (!textDireccion.test(direccionBD.value)) {
-		Swal.fire({
-			text: "Ingrese una dirección de residencia valida",
-			icon: "error",
-		});
-	} else if (pagarBD.value == "") {
+	} 
+	//	else if (!textDireccion.test(direccionBD.value)) {
+	// 	Swal.fire({
+	// 		text: "Ingrese una dirección de residencia valida",
+	// 		icon: "error",
+	// 	});
+	//} 
+	else if (pagarBD.value == "") {
 		Swal.fire({
 			text: "Seleccione si paga ahora o no",
 			icon: "error",
