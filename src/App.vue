@@ -1116,6 +1116,7 @@ main {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	color: white;
 }
 
 #boletaDesplegableReserva {
