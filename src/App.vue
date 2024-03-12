@@ -239,6 +239,11 @@ function adquirir() {
 		mostrarFormularioBD.value = false;
 		mostrarFondo.value = false;
 		boletaDisponible.value = false;
+
+		nombreBD = ref("");
+		telefonoBD = ref("");
+		direccionBD = ref("");
+		pagarBD = ref("");
 	} else if (pagarBD.value == "no") {
 		Swal.fire({
 			text: "¡Gracias por reservar una boleta!",
