@@ -261,6 +261,11 @@ function adquirir() {
 		mostrarFormularioBD.value = false;
 		mostrarFondo.value = false;
 		boletaDisponible.value = false;
+
+		nombreBD = ref("");
+		telefonoBD = ref("");
+		direccionBD = ref("");
+		pagarBD = ref("");
 	}
 }
 
