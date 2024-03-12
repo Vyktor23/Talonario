@@ -172,6 +172,7 @@ let textDireccion = /^[A-Za-z0-9\s]+$/g;
 let hoyAhoraParaAdquirir = null;
 
 function adquirir() {
+	console.log(direccionBD)
 	hoyAhoraParaAdquirir = new Date();
 	let fechaTexto = `${hoyAhoraParaAdquirir.getFullYear()}/${
 		hoyAhoraParaAdquirir.getMonth() + 1
