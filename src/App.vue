@@ -53,6 +53,22 @@ let colorBoletasDisponibles = ref("#000000");
 let colorBoletasGanadora = ref("#FFFF00")
 let colorPagina = ref("#0000FF");
 
+function formatoNumerico(numero) {
+    if (typeof numero === 'number') {
+        numero = numero.toString();
+    }
+
+    if (numero.length >= 4 && numero.length <= 9){
+        const formatoActualizado = numero.split("");
+        formatoActualizado.splice(-3, 0, ".");
+        if (numero.length == 7 || numero.length == 8 || numero.length == 9){
+            formatoActualizado.splice(-7, 0, ".");
+        }
+        return formatoActualizado.join("");
+    }
+	return numero;
+}
+
 function generarLoteria() {
 	fsDate = new Date(fechaSorteo.value + "T00:00:00");
 
@@ -383,13 +399,13 @@ function actualizarF() {
 function cambiarColorBoton(objeto) {
 	switch (objeto) {
 		case "Disponible":
-			return { backgroundColor: colorBoletasDisponibles.value };
+			return { backgroundColor: colorBoletasDisponibles.value, color: '#ffffff' };
 		case "Reservado":
-			return { backgroundColor: colorBoletasReservadas.value };
+			return { backgroundColor: colorBoletasReservadas.value, color: '#ffffff' };
 		case "Comprado":
-			return { backgroundColor: colorBoletasCompradas.value };
+			return { backgroundColor: colorBoletasCompradas.value, color: '#ffffff' };
 		case "Ganador":
-			return { backgroundColor: colorBoletasGanadora.value };
+			return { backgroundColor: colorBoletasGanadora.value, color: '#ffffff' };
 		default:
 			break;
 	}
@@ -431,6 +447,8 @@ function liberarBoleta() {
 
 function marcarPagada() {
 	boletas.value[index.value].estado = "Comprado";
+	const buscarClienteE = clientes.value.find((elemento) => elemento.indice == index.value);
+	buscarClienteE.pagar = "si";
 	modificarBoleta(element.value, index.value);
 }
 let estadoAnterior;
@@ -524,10 +542,10 @@ const imprimir = () => {
 	doc.text(`Total de balotas compradas: ${totalBoletas}`, 10, doc.autoTable.previous.finalY + 10);
 
 	const totalRecaudado = clientes.value.filter((elemento) => elemento.pagar == "si").length;
-	doc.text(`Total recaudado: $${totalRecaudado * precioBoleta.value}`, 10, doc.autoTable.previous.finalY + 20);
+	doc.text(`Total recaudado: $${formatoNumerico(totalRecaudado * precioBoleta.value)}`, 10, doc.autoTable.previous.finalY + 20);
 
 	const totalPendiente = clientes.value.filter((elemento) => elemento.pagar == "no").length;
-	doc.text(`Total pendiente: $${totalPendiente * precioBoleta.value}`, 10, doc.autoTable.previous.finalY + 30);
+	doc.text(`Total pendiente: $${formatoNumerico(totalPendiente * precioBoleta.value)}`, 10, doc.autoTable.previous.finalY + 30);
 
 	doc.save("vendidas.pdf");
 };
@@ -605,16 +623,16 @@ const imprimir = () => {
 				<h2>INFORMACIÓN</h2>
 				<div id="infoContenido">
 					<p>
-						🏆<span>${{ mostrarInformacion == true ? premio : "" }}</span>
+						🏆<span>${{ mostrarInformacion == true ? formatoNumerico(premio) : "" }}</span>
 					</p>
 					<p>
-						💰<span>${{ mostrarInformacion == true ? precioBoleta : "" }}</span>
+						💰<span>${{ mostrarInformacion == true ? formatoNumerico(precioBoleta) : "" }}</span>
 					</p>
 					<p>
 						🏦<span>{{ mostrarInformacion == true ? tipoLoteria : "" }}</span>
 					</p>
 					<p>
-						🗓<span>{{ mostrarInformacion == true ? fechaSorteo : "" }}</span>
+						🗓<span>{{ mostrarInformacion == true ? formatoNumerico(fechaSorteo) : "" }}</span>
 					</p>
 					<button @click="editar()" :style="{ backgroundColor: colorPagina }">Editar 📝</button>
 				</div>
@@ -734,6 +752,8 @@ const imprimir = () => {
 					<span>{{ e.direccion }}</span>
 					<p>Boletas</p>
 					<span>{{ e.indice }}</span>
+					<p>Pago</p>
+					<span>{{ e.pagar }}</span>
 				</article>
 			</div>
 			<button @click="cerrarLista()" :style="{ backgroundColor: colorPagina }">Cerrar</button>
@@ -1060,7 +1080,7 @@ main {
 
 #loteria {
 	width: 40rem;
-	height: 30rem;
+	height: 26rem;
 	margin-top: 3rem;
 	margin-left: 40px;
 	margin-right: 40px;
@@ -1069,6 +1089,7 @@ main {
 	justify-content: space-between;
 	gap: 10px;
 	overflow-y: auto;
+	color:#ff0;
 }
 
 ::-webkit-scrollbar {
